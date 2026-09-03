@@ -2,12 +2,18 @@ import React, { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 
 // Where the bottle sits at the START of each stage
+// Fractions of HALF the current viewport width, not fixed world units
 const STAGE_TRANSFORMS = [
-  { position: [1.8, 0, 0], scale: 1 },    // 0 Hero — right side
-  { position: [-1.8, 0, 0], scale: 1 },   // 1 Features — left side
-  { position: [1.8, 0, 0], scale: 1 },    // 2 Ingredients — right side
-  { position: [0, 0, -3], scale: 0.001 }, // 3 Testimonials — pushed away
+  { xFrac: 0.5, scale: 1 },    // 0 Hero — right side
+  { xFrac: -0.5, scale: 1 },   // 1 Features — left side
+  { xFrac: 0.5, scale: 1 },    // 2 Ingredients — right side
+  { xFrac: 0, scale: 0.001 },  // 3 Testimonials — hidden
 ];
+
+// Roughly the visible world-space width on a typical desktop window,
+// at this camera's distance/FOV — the size the bottle was "designed" at
+const REFERENCE_WIDTH = 7;
+const MIN_VIEWPORT_SCALE = 0.5; // never shrink smaller than half, however narrow the screen
 
 function lerp(a, b, t) {
   return a + (b - a) * t;
@@ -25,14 +31,18 @@ export default function JuiceBottle({ progressRef, ...props }) {
   useFrame((state, delta) => {
   if (!groupRef.current) return;
 
+  const halfWidth = state.viewport.width / 2;
+  const viewportScale = Math.min(
+    Math.max(state.viewport.width / REFERENCE_WIDTH, MIN_VIEWPORT_SCALE),
+    1
+  );
+
   const p = progressRef?.current ?? 0;
   const maxStage = STAGE_TRANSFORMS.length - 1;
   const stageIndex = Math.min(Math.floor(p), maxStage);
   const nextIndex = Math.min(stageIndex + 1, maxStage);
   const localT = p - stageIndex;
 
-  // Stay put for the first 70% of this section's scroll (reading time),
-  // then transition to the NEXT section's position only in the final 30%
   const HOLD = 0.7;
   const raw = Math.max(localT - HOLD, 0) / (1 - HOLD);
   const t = smoothstep(raw);
@@ -40,9 +50,11 @@ export default function JuiceBottle({ progressRef, ...props }) {
   const from = STAGE_TRANSFORMS[stageIndex];
   const to = STAGE_TRANSFORMS[nextIndex];
 
-  groupRef.current.position.x = lerp(from.position[0], to.position[0], t);
-  groupRef.current.position.z = lerp(from.position[2], to.position[2], t);
-  groupRef.current.scale.setScalar(lerp(from.scale, to.scale, t));
+  const fromX = from.xFrac * halfWidth;
+  const toX = to.xFrac * halfWidth;
+
+  groupRef.current.position.x = lerp(fromX, toX, t);
+  groupRef.current.scale.setScalar(lerp(from.scale, to.scale, t) * viewportScale); // ← multiplied in here
 
   groupRef.current.rotation.y += delta * 0.3;
 });

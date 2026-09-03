@@ -17,6 +17,7 @@ const testimonials = [
 export default function StoryScene() {
   const wrapperRef = useRef();
   const { progressRef, stage, localProgress } = useScrollStory(wrapperRef);
+  const heroOpacity = stage === 0 ? Math.max(1 - localProgress * 2, 0) : 0;
 
   return (
     <div ref={wrapperRef} style={{ height: `${(STORY_STAGES + 1) * 100}vh`, position: 'relative' }}>      <div
@@ -33,21 +34,53 @@ export default function StoryScene() {
         {/* Hero text — stage 0 only */}
         <div
           style={{
-            position: 'absolute', top: '50%', left: 0, padding: '3.5rem',
+            position: 'absolute', top: '50%', left: 0, padding: 'clamp(1.25rem, 5vw, 3.5rem)',
             color: 'var(--mist)', transform: 'translateY(-50%)', pointerEvents: 'none',
             opacity: stage === 0 ? Math.max(1 - localProgress * 2, 0) : 0,
           }}
         >
-          <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 400, fontSize: '4rem', lineHeight: 1.05, maxWidth: '480px', margin: 0 }}>
+         <div
+        style={{
+          position: 'absolute', top: '50%', left: 0,
+          padding: 'clamp(1.25rem, 5vw, 3.5rem)',
+          transform: 'translateY(-50%)', pointerEvents: 'none',
+          opacity: heroOpacity,
+        }}
+      >
+        <div
+          style={{
+            display: 'inline-block',
+            background: 'rgba(23, 19, 15, 0.6)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)', // Safari needs the prefix
+            borderRadius: '16px',
+            padding: 'clamp(1rem, 4vw, 1.75rem) clamp(1.25rem, 4vw, 2rem)',
+            maxWidth: 'min(80vw, 440px)',
+          }}
+        >
+          <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 400, fontSize: 'clamp(2rem, 7vw, 4rem)', lineHeight: 1.05, color: 'var(--mist)', margin: 0 }}>
             Pressed, not processed.
           </h1>
-          <p style={{ maxWidth: '340px', opacity: 0.75, marginTop: '2rem', lineHeight: 1.6, fontSize: '0.95rem' }}>
+          <p style={{ opacity: 0.75, marginTop: '1rem', lineHeight: 1.6, fontSize: 'clamp(0.85rem, 2.5vw, 0.95rem)', color: 'var(--mist)' }}>
             Every bottle is cold-pressed within hours of harvest.
           </p>
         </div>
 
+        <button
+          style={{
+            marginTop: '1.5rem', padding: 'clamp(0.7rem, 2vw, 0.85rem) clamp(1.5rem, 4vw, 2rem)',
+            background: 'var(--rind)', color: 'var(--mist)', border: 'none',
+            borderRadius: '999px', fontWeight: 500, fontSize: 'clamp(0.85rem, 2.5vw, 0.95rem)',
+            cursor: 'pointer', pointerEvents: 'auto',
+          }}
+        >
+          Shop the range
+        </button>
+</div>
+        </div>
+
         {/* Benefits — stage 1, revealed one at a time */}
-        <div style={{ position: 'absolute', top: '50%', right: '3.5rem', transform: 'translateY(-50%)', maxWidth: '360px' }}>
+        <div style={{ position: 'absolute', top: '50%', right: 'clamp(1rem, 5vw, 3.5rem)', transform: 'translateY(-50%)', maxWidth: 'min(50vw, 360px)' }}>
           {benefits.map((b, i) => {
             const visible = stage === 1 && localProgress > i * 0.3;
             return (
@@ -60,8 +93,8 @@ export default function StoryScene() {
                   marginBottom: '2rem', color: 'var(--ink)',
                 }}
               >
-                <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 400, fontSize: '2rem', margin: '0 0 0.5rem' }}>{b.title}</h3>
-                <p style={{ opacity: 0.7, fontSize: '1.4rem', lineHeight: 1.5 }}>{b.text}</p>
+                <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 400, fontSize: 'clamp(1.3rem, 4vw, 2rem)', margin: '0 0 0.5rem' }}>{b.title}</h3>
+                <p style={{ opacity: 0.7, fontSize: 'clamp(0.9rem, 2.5vw, 1.4rem)', lineHeight: 1.5 }}>{b.text}</p>
               </div>
             );
           })}
@@ -70,14 +103,14 @@ export default function StoryScene() {
         {/* Ingredients — stage 2 */}
         <div
           style={{
-            position: 'absolute', top: '50%', left: '3.5rem', transform: 'translateY(-50%)',
-            maxWidth: '360px', color: 'var(--ink)',
+            position: 'absolute', top: '50%', left: 'clamp(0.9rem, 2.5vw, 1.4rem)', transform: 'translateY(-50%)',
+            maxWidth: 'min(58vw, 360px)', color: 'var(--ink)',
             opacity: stage === 2 ? 1 : 0, transition: 'opacity 0.4s ease',
           }}
         >
-          <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 400, fontSize: '3rem', margin: '0 0 1rem' }}>What's inside</h2>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 400, fontSize: 'clamp(1.6rem, 5vw, 3rem)', margin: '0 0 1rem' }}>What's inside</h2>
           <div style={{ width: '48px', height: '3px', background: 'var(--rind)', marginBottom: '1.5rem' }} />
-          <ul style={{ listStyle: 'none', padding: 0, lineHeight: 2, opacity: 0.8 , fontSize: '1.5rem'}}>
+          <ul style={{ listStyle: 'none', padding: 0, lineHeight: 2, opacity: 0.8 , fontSize: 'clamp(0.95rem, 3vw, 1.5rem)'}}>
             <li>Cold-pressed oranges</li>
             <li>Honey</li>
             <li>Salt</li>
@@ -91,7 +124,7 @@ export default function StoryScene() {
           style={{
             position: 'absolute', inset: 0,
             display: 'flex', alignItems: 'flex-start', justifyContent: 'center',
-            padding: '18vh 3.5rem 3.5rem',
+            padding: `18vh clamp(1rem, 5vw, 3.5rem) clamp(1rem, 5vw, 3.5rem)`,
             opacity: stage === 3 ? 1 : 0,
             transition: 'opacity 0.4s ease',
           }}
@@ -127,7 +160,7 @@ export default function StoryScene() {
                     textAlign: 'center',
                     fontFamily: 'var(--font-display)',
                     fontStyle: 'italic',
-                    fontSize: '1.5rem',
+                    fontSize: `18vh clamp(1rem, 5vw, 3.5rem) clamp(1rem, 5vw, 3.5rem)`,
                     color: 'var(--mist)',
                     lineHeight: 1.5,
                   }}
