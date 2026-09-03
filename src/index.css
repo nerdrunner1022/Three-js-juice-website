@@ -1,0 +1,33 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --dusk: #17130F;
+  --paper: #EDE6D3;
+  --rind: #C1421C;
+  --pulp: #E8A33D;
+  --leaf: #445A3C;
+  --ink: #241F19;
+  --mist: #F5EFE1;
+
+  --font-display: 'Fraunces', serif;
+  --font-body: 'Space Grotesk', sans-serif;
+}
+
+html, body {
+  width: 100%;
+  background-color: var(--dusk);
+  font-family: var(--font-body);
+  color: var(--ink);
+}
+
+canvas {
+  touch-action: none;
+}
+
+button {
+  font-family: var(--font-body);
+}
