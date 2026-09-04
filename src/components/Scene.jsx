@@ -1,6 +1,6 @@
-import React, { Suspense } from 'react';
+import { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Environment, ContactShadows, Html, useProgress } from '@react-three/drei';
+import { Environment, ContactShadows, Html, useProgress } from '@react-three/drei';
 import JuiceBottle from './JuiceBottle';
 
 // Loading fallback shown while any suspended assets (textures, models) load.

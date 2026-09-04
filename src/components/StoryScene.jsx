@@ -1,6 +1,5 @@
-import React, { useRef } from 'react';
 import Scene from './Scene';
-import { useScrollStory, STORY_STAGES } from '../hooks/useScrollStory';
+import { STORY_STAGES } from '../hooks/useScrollStory';
 
 const benefits = [
   { title: 'Cold-pressed', text: 'Crushed and pressed, never heated.' },
@@ -78,7 +77,7 @@ export default function StoryScene({ wrapperRef, progressRef, stage, localProgre
         </div>
 
         {/* Benefits — stage 1, revealed one at a time */}
-        <div style={{ position: 'absolute', top: '50%', right: 'clamp(1rem, 5vw, 3.5rem)', transform: 'translateY(-50%)', maxWidth: 'min(50vw, 360px)' }}>
+        <div style={{ position: 'absolute', top: '50%', right: 'clamp(1rem, 12vw, 10rem)', transform: 'translateY(-50%)', maxWidth: 'min(42vw, 320px)' }}>
           {benefits.map((b, i) => {
             const visible = stage === 1 && localProgress > i * 0.3;
             return (
@@ -101,8 +100,8 @@ export default function StoryScene({ wrapperRef, progressRef, stage, localProgre
         {/* Ingredients — stage 2 */}
         <div
           style={{
-            position: 'absolute', top: '50%', left: 'clamp(0.9rem, 2.5vw, 1.4rem)', transform: 'translateY(-50%)', marginLeft: 'clamp(1rem, 6vw, 2rem)',
-            maxWidth: 'min(58vw, 360px)', color: 'var(--ink)',
+            position: 'absolute', top: '50%', left: 'clamp(1rem, 12vw, 10rem)', transform: 'translateY(-50%)',
+            maxWidth: 'min(42vw, 320px)', color: 'var(--ink)',
             opacity: stage === 2 ? 1 : 0, transition: 'opacity 0.4s ease',
           }}
         >
