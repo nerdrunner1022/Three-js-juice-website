@@ -14,9 +14,7 @@ const testimonials = [
   { name: 'Sam', text: 'You can actually taste the difference cold-pressed makes.' },
 ];
 
-export default function StoryScene() {
-  const wrapperRef = useRef();
-  const { progressRef, stage, localProgress } = useScrollStory(wrapperRef);
+export default function StoryScene({ wrapperRef, progressRef, stage, localProgress }) {
   const heroOpacity = stage === 0 ? Math.max(1 - localProgress * 2, 0) : 0;
 
   return (
@@ -62,13 +60,13 @@ export default function StoryScene() {
             Pressed, not processed.
           </h1>
           <p style={{ opacity: 0.75, marginTop: '1rem', lineHeight: 1.6, fontSize: 'clamp(0.85rem, 2.5vw, 0.95rem)', color: 'var(--mist)' }}>
-            Every bottle is cold-pressed within hours of harvest.
+            From every juicy orange that hangs low, we squeeze out the purest, most vibrant juice — no heat, no additives, just fruit in its most natural form.
           </p>
         </div>
 
         <button
           style={{
-            marginTop: '1.5rem', padding: 'clamp(0.7rem, 2vw, 0.85rem) clamp(1.5rem, 4vw, 2rem)',
+            marginTop: '1.5rem', marginLeft: 'clamp(1rem, 4vw, 2rem)', padding: 'clamp(0.7rem, 2vw, 0.85rem) clamp(1.5rem, 4vw, 2rem)',
             background: 'var(--rind)', color: 'var(--mist)', border: 'none',
             borderRadius: '999px', fontWeight: 500, fontSize: 'clamp(0.85rem, 2.5vw, 0.95rem)',
             cursor: 'pointer', pointerEvents: 'auto',
@@ -103,7 +101,7 @@ export default function StoryScene() {
         {/* Ingredients — stage 2 */}
         <div
           style={{
-            position: 'absolute', top: '50%', left: 'clamp(0.9rem, 2.5vw, 1.4rem)', transform: 'translateY(-50%)',
+            position: 'absolute', top: '50%', left: 'clamp(0.9rem, 2.5vw, 1.4rem)', transform: 'translateY(-50%)', marginLeft: 'clamp(1rem, 6vw, 2rem)',
             maxWidth: 'min(58vw, 360px)', color: 'var(--ink)',
             opacity: stage === 2 ? 1 : 0, transition: 'opacity 0.4s ease',
           }}
