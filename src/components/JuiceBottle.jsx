@@ -5,8 +5,8 @@ import { useGLTF } from '@react-three/drei';
 
 const STAGE_TRANSFORMS = [
   { xFrac: 0.5, scale: 1 },
-  { xFrac: -0.5, scale: 1.25 },
-  { xFrac: 0.5, scale: 1.45 },
+  { xFrac: -0.5, scale: 2.1 },
+  { xFrac: 0.5, scale: 2.8 },
   { xFrac: 0, scale: 0.001 },
 ];
 
@@ -36,7 +36,7 @@ export default function JuiceBottle({ progressRef, ...props }) {
   const groupRef = useRef();
   const { nodes } = useGLTF('/models/juice_bottle.glb');
 
-  useFrame((state, delta) => {
+  useFrame((state) => {
     if (!groupRef.current) return;
 
     const halfWidth = state.viewport.width / 2;
@@ -57,11 +57,11 @@ export default function JuiceBottle({ progressRef, ...props }) {
 
     const from = STAGE_TRANSFORMS[stageIndex];
     const to = STAGE_TRANSFORMS[nextIndex];
+    const tilt = stageIndex === 0 ? lerp(-0.38, 0, t) : 0;
 
     groupRef.current.position.x = lerp(from.xFrac * halfWidth, to.xFrac * halfWidth, t);
     groupRef.current.scale.setScalar(lerp(from.scale, to.scale, t) * viewportScale);
-    groupRef.current.rotation.z = -0.38;
-    groupRef.current.rotation.y += delta * 0.8;
+    groupRef.current.rotation.z = tilt;
   });
 
   return (

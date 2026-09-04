@@ -26,7 +26,7 @@ export default function StoryScene({ wrapperRef, progressRef, stage, localProgre
           background: stage === 0 || stage === 3 ? 'var(--dusk)' : 'var(--paper)',
         }}
       >
-        <Scene progressRef={progressRef} />
+        <Scene progressRef={progressRef} stage={stage} />
 
         {/* Hero text — stage 0 only */}
         <div
