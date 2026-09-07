@@ -30,6 +30,7 @@ export default function StoryScene({ wrapperRef, progressRef, stage, localProgre
 
         {/* Hero text — stage 0 only */}
         <div
+          className="story-hero"
         style={{
           position: 'absolute', top: '50%', left: 0,
           padding: 'clamp(1rem, 5vw, 3.5rem)',
@@ -39,6 +40,7 @@ export default function StoryScene({ wrapperRef, progressRef, stage, localProgre
         }}
       >
         <div
+          className="story-hero-card"
           style={{
             display: 'inline-block',
             background: 'rgba(23, 19, 15, 0.6)',
@@ -70,7 +72,7 @@ export default function StoryScene({ wrapperRef, progressRef, stage, localProgre
   </div>
 
         {/* Benefits — stage 1, revealed one at a time */}
-        <div style={{ position: 'absolute', top: '50%', right: 'clamp(1rem, 8vw, 10rem)', transform: 'translateY(-50%)', width: 'min(calc(100vw - 2rem), 320px)', maxWidth: 'calc(100vw - 2rem)' }}>
+        <div className="story-benefits" style={{ position: 'absolute', top: '50%', right: 'clamp(1rem, 8vw, 10rem)', transform: 'translateY(-50%)', width: 'min(calc(100vw - 2rem), 320px)', maxWidth: 'calc(100vw - 2rem)' }}>
           {benefits.map((b, i) => {
             const visible = stage === 1 && localProgress > i * 0.3;
             return (
@@ -92,6 +94,7 @@ export default function StoryScene({ wrapperRef, progressRef, stage, localProgre
 
         {/* Ingredients — stage 2 */}
         <div
+          className="story-ingredients"
           style={{
             position: 'absolute', top: '50%', left: 'clamp(1rem, 8vw, 10rem)', transform: 'translateY(-50%)',
             width: 'min(calc(100vw - 2rem), 320px)', maxWidth: 'calc(100vw - 2rem)', color: 'var(--ink)',

@@ -48,6 +48,30 @@ button {
   display: inline-flex;
   align-items: center;
   white-space: nowrap;
+  position: relative;
+}
+
+.site-nav-links a::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 0.25rem;
+  left: 0;
+  height: 2px;
+  border-radius: 999px;
+  background: currentColor;
+  opacity: 0;
+  transform: scaleX(0.35);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.site-nav-links a.is-active {
+  opacity: 1 !important;
+}
+
+.site-nav-links a.is-active::after {
+  opacity: 0.8;
+  transform: scaleX(1);
 }
 
 .site-nav-toggle {
@@ -131,5 +155,52 @@ button {
     padding: 0.55rem 0.25rem;
     text-align: center;
     justify-content: center;
+  }
+
+  .site-nav-links a::after {
+    right: 25%;
+    bottom: 0.2rem;
+    left: 25%;
+  }
+
+  .story-benefits {
+    right: 1rem !important;
+    left: 52% !important;
+    width: auto !important;
+    max-width: none !important;
+  }
+
+  .story-hero {
+    right: auto;
+    width: 47%;
+    padding: 0 !important;
+  }
+
+  .story-hero-card {
+    width: 100%;
+    max-width: none !important;
+    padding: 0.85rem 0.8rem !important;
+  }
+
+  .story-hero-card h1 {
+    font-size: clamp(1.5rem, 7vw, 2.2rem) !important;
+  }
+
+  .story-hero-card p {
+    font-size: clamp(0.9rem, 3.5vw, 1rem) !important;
+    line-height: 1.4 !important;
+  }
+
+  .story-hero > button {
+    max-width: 100%;
+    padding: 0.65rem 0.8rem !important;
+    font-size: 0.9rem !important;
+  }
+
+  .story-ingredients {
+    right: 1rem !important;
+    left: 1rem !important;
+    width: auto !important;
+    max-width: none !important;
   }
 }

@@ -64,6 +64,8 @@ export default function Nav({ stage, wrapperRef, footerRef }) {
         {links.map((link) => (
           <a
             key={link.label}
+            className={stage === link.stage ? 'is-active' : undefined}
+            aria-current={stage === link.stage ? 'page' : undefined}
             href="#"
             onClick={(e) => {
               e.preventDefault();

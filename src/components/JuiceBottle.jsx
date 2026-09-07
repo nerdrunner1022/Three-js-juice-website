@@ -11,7 +11,7 @@ const STAGE_TRANSFORMS = [
 ];
 
 const REFERENCE_WIDTH = 7;
-const MIN_VIEWPORT_SCALE = 0.5;
+const MIN_VIEWPORT_SCALE = 0.3;
 
 // The sourced .glb is ~0.21 units tall; our scene/camera/lighting were tuned
 // around the old ~1.8 unit placeholder — scale up to match that world.
