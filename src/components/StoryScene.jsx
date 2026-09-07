@@ -22,7 +22,7 @@ export default function StoryScene({ wrapperRef, progressRef, stage, localProgre
           position: 'sticky',
           top: 0,
           height: '100vh',
-          overflow: stage === 3 ? 'visible' : 'hidden',
+          overflow: 'hidden',
           background: stage === 0 || stage === 3 ? 'var(--dusk)' : 'var(--paper)',
         }}
       >
@@ -30,18 +30,12 @@ export default function StoryScene({ wrapperRef, progressRef, stage, localProgre
 
         {/* Hero text — stage 0 only */}
         <div
-          style={{
-            position: 'absolute', top: '50%', left: 0, padding: 'clamp(1.25rem, 5vw, 3.5rem)',
-            color: 'var(--mist)', transform: 'translateY(-50%)', pointerEvents: 'none',
-            opacity: stage === 0 ? Math.max(1 - localProgress * 2, 0) : 0,
-          }}
-        >
-         <div
         style={{
           position: 'absolute', top: '50%', left: 0,
-          padding: 'clamp(1.25rem, 5vw, 3.5rem)',
+          padding: 'clamp(1rem, 5vw, 3.5rem)',
           transform: 'translateY(-50%)', pointerEvents: 'none',
           opacity: heroOpacity,
+          display: 'flex', flexDirection: 'column', alignItems: 'flex-start',
         }}
       >
         <div
@@ -58,26 +52,25 @@ export default function StoryScene({ wrapperRef, progressRef, stage, localProgre
           <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 400, fontSize: 'clamp(2rem, 7vw, 4rem)', lineHeight: 1.05, color: 'var(--mist)', margin: 0 }}>
             Pressed, not processed.
           </h1>
-          <p style={{ opacity: 0.75, marginTop: '1rem', lineHeight: 1.6, fontSize: 'clamp(0.85rem, 2.5vw, 0.95rem)', color: 'var(--mist)' }}>
+          <p style={{ opacity: 0.75, marginTop: '1rem', lineHeight: 1.6, fontSize: 'clamp(1rem, 2.5vw, 1.1rem)', color: 'var(--mist)' }}>
             From every juicy orange that hangs low, we squeeze out the purest, most vibrant juice — no heat, no additives, just fruit in its most natural form.
           </p>
         </div>
 
         <button
           style={{
-            marginTop: '1.5rem', marginLeft: 'clamp(1rem, 4vw, 2rem)', padding: 'clamp(0.7rem, 2vw, 0.85rem) clamp(1.5rem, 4vw, 2rem)',
+            marginTop: '1.5rem', marginLeft: 0, padding: 'clamp(0.7rem, 2vw, 0.85rem) clamp(1.5rem, 4vw, 2rem)',
             background: 'var(--rind)', color: 'var(--mist)', border: 'none',
-            borderRadius: '999px', fontWeight: 500, fontSize: 'clamp(0.85rem, 2.5vw, 0.95rem)',
+            borderRadius: '999px', fontWeight: 500, fontSize: 'clamp(1rem, 2.5vw, 1.1rem)',
             cursor: 'pointer', pointerEvents: 'auto',
           }}
         >
           Shop the range
         </button>
-</div>
-        </div>
+  </div>
 
         {/* Benefits — stage 1, revealed one at a time */}
-        <div style={{ position: 'absolute', top: '50%', right: 'clamp(1rem, 12vw, 10rem)', transform: 'translateY(-50%)', maxWidth: 'min(42vw, 320px)' }}>
+        <div style={{ position: 'absolute', top: '50%', right: 'clamp(1rem, 8vw, 10rem)', transform: 'translateY(-50%)', width: 'min(calc(100vw - 2rem), 320px)', maxWidth: 'calc(100vw - 2rem)' }}>
           {benefits.map((b, i) => {
             const visible = stage === 1 && localProgress > i * 0.3;
             return (
@@ -87,11 +80,11 @@ export default function StoryScene({ wrapperRef, progressRef, stage, localProgre
                   opacity: visible ? 1 : 0,
                   transform: visible ? 'translateY(0)' : 'translateY(12px)',
                   transition: 'opacity 0.4s ease, transform 0.4s ease',
-                  marginBottom: '2rem', color: 'var(--ink)',
+                  marginBottom: '1.5rem', color: 'var(--ink)',
                 }}
               >
                 <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 400, fontSize: 'clamp(1.3rem, 4vw, 2rem)', margin: '0 0 0.5rem' }}>{b.title}</h3>
-                <p style={{ opacity: 0.7, fontSize: 'clamp(0.9rem, 2.5vw, 1.4rem)', lineHeight: 1.5 }}>{b.text}</p>
+                <p style={{ opacity: 0.7, fontSize: 'clamp(1rem, 2.5vw, 1.25rem)', lineHeight: 1.5 }}>{b.text}</p>
               </div>
             );
           })}
@@ -100,14 +93,14 @@ export default function StoryScene({ wrapperRef, progressRef, stage, localProgre
         {/* Ingredients — stage 2 */}
         <div
           style={{
-            position: 'absolute', top: '50%', left: 'clamp(1rem, 12vw, 10rem)', transform: 'translateY(-50%)',
-            maxWidth: 'min(42vw, 320px)', color: 'var(--ink)',
+            position: 'absolute', top: '50%', left: 'clamp(1rem, 8vw, 10rem)', transform: 'translateY(-50%)',
+            width: 'min(calc(100vw - 2rem), 320px)', maxWidth: 'calc(100vw - 2rem)', color: 'var(--ink)',
             opacity: stage === 2 ? 1 : 0, transition: 'opacity 0.4s ease',
           }}
         >
           <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 400, fontSize: 'clamp(1.6rem, 5vw, 3rem)', margin: '0 0 1rem' }}>What's inside</h2>
           <div style={{ width: '48px', height: '3px', background: 'var(--rind)', marginBottom: '1.5rem' }} />
-          <ul style={{ listStyle: 'none', padding: 0, lineHeight: 2, opacity: 0.8 , fontSize: 'clamp(0.95rem, 3vw, 1.5rem)'}}>
+          <ul style={{ listStyle: 'none', padding: 0, lineHeight: 2, opacity: 0.8 , fontSize: 'clamp(1rem, 3vw, 1.5rem)'}}>
             <li>Cold-pressed oranges</li>
             <li>Honey</li>
             <li>Salt</li>
@@ -121,7 +114,7 @@ export default function StoryScene({ wrapperRef, progressRef, stage, localProgre
           style={{
             position: 'absolute', inset: 0,
             display: 'flex', alignItems: 'flex-start', justifyContent: 'center',
-            padding: `18vh clamp(1rem, 5vw, 3.5rem) clamp(1rem, 5vw, 3.5rem)`,
+            padding: `18vh clamp(1rem, 5vw, 3.5rem) clamp(1rem, 5vw, 1.5rem)`,
             opacity: stage === 3 ? 1 : 0,
             transition: 'opacity 0.4s ease',
           }}
@@ -129,10 +122,10 @@ export default function StoryScene({ wrapperRef, progressRef, stage, localProgre
           <div
             style={{
               width: '100%',
-              maxWidth: '560px',
+              maxWidth: '448px',
               display: 'flex',
               flexDirection: 'column',
-              gap: '1rem',
+              gap: '0.6rem',
               alignItems: 'stretch',
             }}
           >
@@ -146,7 +139,7 @@ export default function StoryScene({ wrapperRef, progressRef, stage, localProgre
                   key={q.name}
                   style={{
                     margin: 0,
-                    padding: '1.5rem 1.25rem',
+                    padding: '0.8rem 0.8rem',
                     borderRadius: '1rem',
                     background: 'rgba(255, 255, 255, 0.06)',
                     border: '1px solid rgba(255,255,255,0.08)',
@@ -157,9 +150,9 @@ export default function StoryScene({ wrapperRef, progressRef, stage, localProgre
                     textAlign: 'center',
                     fontFamily: 'var(--font-display)',
                     fontStyle: 'italic',
-                    fontSize: `18vh clamp(1rem, 5vw, 3.5rem) clamp(1rem, 5vw, 3.5rem)`,
+                    fontSize: 'clamp(1rem, 2vw, 1.5rem)',
                     color: 'var(--mist)',
-                    lineHeight: 1.5,
+                    lineHeight: 1.3,
                   }}
                 >
                   "{q.text}"
@@ -168,8 +161,8 @@ export default function StoryScene({ wrapperRef, progressRef, stage, localProgre
                       display: 'block',
                       fontFamily: 'var(--font-body)',
                       fontStyle: 'normal',
-                      fontSize: '0.9rem',
-                      marginTop: '1rem',
+                      fontSize: 'clamp(0.9rem, 1.6vw, 0.95rem)',
+                      marginTop: '0.5rem',
                       opacity: 0.7,
                     }}
                   >

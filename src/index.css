@@ -43,6 +43,13 @@ button {
   gap: clamp(1rem, 4vw, 2rem);
 }
 
+.site-nav-links a {
+  min-height: 2.5rem;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
 .site-nav-toggle {
   display: none;
   border: 0;
@@ -81,12 +88,13 @@ button {
   transform: translateY(-0.28rem) rotate(-45deg);
 }
 
-@media (max-width: 640px) {
+@media (max-width: 800px) {
   .site-nav {
     width: calc(100vw - 3rem);
     max-width: none;
     padding: 0.7rem 0.9rem !important;
     border-radius: 1.25rem !important;
+    font-size: 1rem !important;
     flex-wrap: wrap;
     justify-content: space-between;
     gap: 0.35rem !important;
@@ -107,18 +115,21 @@ button {
     width: 100%;
     flex-direction: column;
     align-items: stretch;
-    gap: 0.1rem;
+    gap: 0.2rem;
     border-top: 1px solid currentColor;
     margin-top: 0.35rem;
     padding-top: 0.35rem;
+    max-height: min(60vh, 24rem);
+    overflow-y: auto;
   }
 
   .site-nav.is-open .site-nav-links {
     display: flex;
   }
 
-  .site-nav-links span {
+  .site-nav-links a {
     padding: 0.55rem 0.25rem;
     text-align: center;
+    justify-content: center;
   }
 }

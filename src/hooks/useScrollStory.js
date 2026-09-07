@@ -4,6 +4,10 @@ import { useRef, useEffect, useState } from 'react';
 // 0 = Hero, 1 = Features, 2 = Ingredients, 3 = Testimonials
 export const STORY_STAGES = 4;
 
+export function getStoryStageHeight(wrapper) {
+  return wrapper.offsetHeight / (STORY_STAGES + 1) || window.innerHeight;
+}
+
 export function useScrollStory(wrapperRef) {
   // Continuous, precise value — read every 3D frame, never triggers a re-render
   const progressRef = useRef(0);
@@ -20,7 +24,7 @@ export function useScrollStory(wrapperRef) {
 
       // getBoundingClientRect().top goes negative as we scroll past the wrapper's start
       const rect = wrapper.getBoundingClientRect();
-      const scrolled = -rect.top / window.innerHeight;
+      const scrolled = -rect.top / getStoryStageHeight(wrapper);
       const clamped = Math.min(Math.max(scrolled, 0), STORY_STAGES - 0.001);
 
       progressRef.current = clamped;

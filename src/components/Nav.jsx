@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { getStoryStageHeight } from '../hooks/useScrollStory';
 
 const links = [
   { label: 'Home', stage: 0 },
@@ -15,9 +16,13 @@ export default function Nav({ stage, wrapperRef, footerRef }) {
   const overLight = stage === 1 || stage === 2;
 
   const scrollToStage = (index) => {
-    if (!wrapperRef.current) return;
-    const target = wrapperRef.current.offsetTop + index * window.innerHeight;
-    window.scrollTo({ top: target, behavior: 'smooth' });
+    const wrapper = wrapperRef.current;
+    if (!wrapper) return;
+    const revealOffset = index === 1 || index === 3 ? 0.7 : index === 2 ? 0.05 : 0;
+    const stageHeight = getStoryStageHeight(wrapper);
+    const wrapperTop = wrapper.getBoundingClientRect().top + window.scrollY;
+    const target = wrapperTop + (index + revealOffset) * stageHeight;
+    window.scrollTo({ top: target, behavior: 'auto' });
   };
 
   const scrollToContact = () => {
@@ -28,7 +33,7 @@ export default function Nav({ stage, wrapperRef, footerRef }) {
     <nav
       className={`site-nav${menuOpen ? ' is-open' : ''}`}
       style={{
-        position: 'fixed', top: '1.5rem', left: '50%', transform: 'translateX(-50%)',
+        position: 'fixed', top: '1.5rem', left: '50%', transform: 'translateX(-50%) scale(0.95)',
         zIndex: 50,
         background: overLight ? 'var(--dusk)' : 'rgba(245, 239, 225, 0.9)',
         color: overLight ? 'var(--mist)' : 'var(--ink)',
@@ -57,27 +62,31 @@ export default function Nav({ stage, wrapperRef, footerRef }) {
 
       <div className="site-nav-links">
         {links.map((link) => (
-          <span
+          <a
             key={link.label}
-            onClick={() => {
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
               scrollToStage(link.stage);
               setMenuOpen(false);
             }}
-            style={{ opacity: 0.75, cursor: 'pointer' }}
+            style={{ opacity: 0.75, color: 'inherit', textDecoration: 'none' }}
           >
             {link.label}
-          </span>
+          </a>
         ))}
 
-        <span
-          onClick={() => {
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
             scrollToContact();
             setMenuOpen(false);
           }}
-          style={{ opacity: 0.75, cursor: 'pointer' }}
+          style={{ opacity: 0.75, color: 'inherit', textDecoration: 'none' }}
         >
           Contact
-        </span>
+        </a>
       </div>
     </nav>
   );
