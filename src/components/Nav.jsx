@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getStoryStageHeight } from '../hooks/useScrollStory';
 
 const links = [
@@ -53,11 +55,11 @@ export default function Nav({ stage, wrapperRef, footerRef }) {
         aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
         onClick={() => setMenuOpen((open) => !open)}
       >
-        <span className="hamburger-icon" aria-hidden="true">
-          <span />
-          <span />
-          <span />
-        </span>
+        <FontAwesomeIcon
+          className="hamburger-icon"
+          icon={menuOpen ? faXmark : faBars}
+          aria-hidden="true"
+        />
       </button>
 
       <div className="site-nav-links">
