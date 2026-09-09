@@ -32,6 +32,224 @@ button {
   font-family: var(--font-body);
 }
 
+footer p {
+  overflow-wrap: anywhere;
+}
+
+.shop-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  padding: clamp(1rem, 4vw, 2rem);
+  background: rgba(23, 19, 15, 0.78);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.shop-modal {
+  position: relative;
+  width: min(100%, 920px);
+  max-height: min(90vh, 760px);
+  overflow-y: auto;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  border: 1px solid rgba(68, 90, 60, 0.24);
+  border-radius: 1.5rem;
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.35);
+}
+
+.shop-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  place-items: center;
+  border: 1px solid rgba(36, 31, 25, 0.18);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.shop-modal-eyebrow {
+  margin: 0 0 0.75rem;
+  color: var(--rind);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.shop-modal h2 {
+  max-width: 12ch;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.8rem);
+  font-weight: 400;
+  line-height: 1;
+}
+
+.shop-modal-intro {
+  max-width: 42rem;
+  margin-top: 1rem;
+  color: rgba(36, 31, 25, 0.7);
+  line-height: 1.55;
+}
+
+.shop-products {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.shop-product {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.25rem;
+  border: 1px solid rgba(36, 31, 25, 0.14);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.34);
+  color: var(--ink);
+  cursor: pointer;
+  text-align: center;
+  transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+}
+
+.shop-product:hover,
+.shop-product.is-selected {
+  border-color: var(--rind);
+  background: rgba(255, 255, 255, 0.72);
+  transform: translateY(-0.25rem);
+}
+
+.shop-product.is-selected {
+  box-shadow: 0 0 0 2px rgba(193, 66, 28, 0.15);
+}
+
+.product-bottle-preview {
+  width: 100%;
+  height: 10.5rem;
+  margin: 0.25rem auto 0.75rem;
+  pointer-events: none;
+}
+
+.product-bottle-preview canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.product-bottle {
+  position: relative;
+  display: block;
+  width: 3.7rem;
+  height: 7rem;
+  margin: 0.5rem auto 1rem;
+  border: 2px solid rgba(36, 31, 25, 0.22);
+  border-radius: 1.2rem 1.2rem 0.9rem 0.9rem;
+  background: linear-gradient(105deg, #f5b071 0%, #e8783c 52%, #c1421c 100%);
+  box-shadow: inset 0.55rem 0 rgba(255, 255, 255, 0.2), 0 0.75rem 1rem rgba(36, 31, 25, 0.14);
+}
+
+.product-bottle::before {
+  position: absolute;
+  top: -1.1rem;
+  left: 0.72rem;
+  width: 2rem;
+  height: 1.35rem;
+  border: 2px solid rgba(36, 31, 25, 0.22);
+  border-bottom: 0;
+  border-radius: 0.55rem 0.55rem 0 0;
+  background: #e8a33d;
+  content: '';
+}
+
+.product-bottle-cap {
+  position: absolute;
+  top: -1.45rem;
+  left: 0.62rem;
+  width: 2.2rem;
+  height: 0.45rem;
+  border-radius: 0.4rem;
+  background: var(--leaf);
+}
+
+.product-bottle-label {
+  position: absolute;
+  right: 0.35rem;
+  bottom: 1.5rem;
+  left: 0.35rem;
+  padding: 0.35rem 0.1rem;
+  background: rgba(245, 239, 225, 0.85);
+  color: var(--rind);
+  font-family: var(--font-display);
+  font-size: 0.58rem;
+  line-height: 0.9;
+}
+
+.product-bottle-small {
+  transform: scale(0.78);
+}
+
+.product-bottle-large {
+  transform: scale(1.18);
+}
+
+.shop-product-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.shop-product-copy strong {
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  font-weight: 400;
+}
+
+.shop-product-copy span {
+  color: var(--leaf);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.shop-product-copy small {
+  min-height: 2.6em;
+  margin-top: 0.35rem;
+  color: rgba(36, 31, 25, 0.62);
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.shop-product-price {
+  margin-top: 1rem;
+  color: var(--rind);
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.shop-modal-cta {
+  display: block;
+  width: min(100%, 20rem);
+  margin: 2rem auto 0;
+  padding: 0.9rem 1.5rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--rind);
+  color: var(--mist);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 500;
+}
+
 .site-nav {
   width: max-content;
   max-width: calc(100vw - 3rem);
@@ -89,6 +307,87 @@ button {
   height: 1.25rem;
 }
 
+.story-testimonial-card {
+  transition: opacity 1.4s ease, transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@starting-style {
+  .story-testimonial-card {
+    opacity: 0;
+    transform: translate3d(-18%, 0, -180px) rotateY(12deg) scale(0.82);
+  }
+}
+
+@media (max-width: 800px) {
+  .shop-modal {
+    padding: 1.5rem 1rem 1.25rem;
+    border-radius: 1rem;
+  }
+
+  .shop-modal-close {
+    top: 0.65rem;
+    right: 0.65rem;
+  }
+
+  .shop-modal h2 {
+    padding-right: 2.5rem;
+    font-size: clamp(2rem, 10vw, 3rem);
+  }
+
+  .shop-products {
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .shop-product {
+    padding: 0.75rem 0.35rem;
+  }
+
+  .product-bottle-preview {
+    height: 8rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .shop-product-copy strong {
+    font-size: 1.05rem;
+  }
+
+  .shop-product-copy span,
+  .shop-product-copy small {
+    font-size: 0.68rem;
+  }
+
+  .shop-product-copy small {
+    min-height: 3.8em;
+  }
+
+  .shop-product-price {
+    margin-top: 0.7rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shop-product {
+    transition: none;
+  }
+}
+
+@media (max-width: 800px) {
+  .story-testimonial-track {
+    gap: 0.55rem !important;
+  }
+
+  .story-testimonial-track blockquote {
+    padding: 0.55rem 0.385rem !important;
+    font-size: clamp(0.682rem, 2.75vw, 0.935rem) !important;
+  }
+
+  .story-testimonial-track blockquote span {
+    font-size: clamp(0.605rem, 2.2vw, 0.77rem) !important;
+    margin-top: 0.3rem !important;
+  }
+}
 @media (max-width: 800px) {
   .site-nav {
     width: calc(100vw - 3rem);
@@ -180,4 +479,5 @@ button {
     width: auto !important;
     max-width: none !important;
   }
+
 }

@@ -36,7 +36,7 @@ export default function Nav({ stage, wrapperRef, footerRef }) {
       className={`site-nav${menuOpen ? ' is-open' : ''}`}
       style={{
         position: 'fixed', top: '1.5rem', left: '50%', transform: 'translateX(-50%) scale(0.95)',
-        zIndex: 50,
+        zIndex: 100,
         background: overLight ? 'var(--dusk)' : 'rgba(245, 239, 225, 0.9)',
         color: overLight ? 'var(--mist)' : 'var(--ink)',
         padding: 'clamp(0.55rem, 1.5vw, 0.8rem) clamp(0.9rem, 2.5vw, 1.2rem)',

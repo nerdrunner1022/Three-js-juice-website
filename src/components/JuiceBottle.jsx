@@ -58,7 +58,7 @@ export default function JuiceBottle({ progressRef, stage = 0, ...props }) {
 
     return clone;
   }, [splashScene]);
-  const labelTexture = useTexture('/label.jpg', (texture) => {
+  const labelTexture = useTexture('/label.png', (texture) => {
     texture.colorSpace = THREE.SRGBColorSpace;
     texture.flipY = false;
     texture.wrapS = THREE.ClampToEdgeWrapping;
