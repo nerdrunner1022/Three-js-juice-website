@@ -24,7 +24,7 @@ export default function App() {
         onShop={openShop}
       />
       <div ref={footerRef}>
-        <Footer onShop={openShop} />
+        <Footer wrapperRef={wrapperRef} onShop={openShop} />
       </div>
       <ShopModal open={shopOpen} onClose={closeShop} />
     </div>

@@ -44,3 +44,12 @@ export function useScrollStory(wrapperRef) {
 
   return { progressRef, stage, localProgress };
 }
+
+export function scrollToStage(wrapper, index, behavior = 'smooth') {
+  if (!wrapper) return;
+  const revealOffset = index === 1 || index === 3 ? 0.7 : index === 2 ? 0.05 : 0;
+  const stageHeight = getStoryStageHeight(wrapper);
+  const wrapperTop = wrapper.getBoundingClientRect().top + window.scrollY;
+  const target = wrapperTop + (index + revealOffset) * stageHeight;
+  window.scrollTo({ top: target, behavior });
+}
