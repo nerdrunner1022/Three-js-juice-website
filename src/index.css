@@ -375,17 +375,20 @@ footer p {
 
 @media (max-width: 800px) {
   .story-testimonial-track {
-    gap: 0.55rem !important;
+    gap: 0.5rem !important;
   }
 
-  .story-testimonial-track blockquote {
-    padding: 0.55rem 0.385rem !important;
-    font-size: clamp(0.682rem, 2.75vw, 0.935rem) !important;
+  .story-testimonial-card {
+    aspect-ratio: 1 / 1.65 !important;
+    padding: 1.1rem 0.75rem !important;
+    font-size: clamp(0.85rem, 3.2vw, 1.15rem) !important;
+    line-height: 1.4 !important;
+    justify-content: center !important;
   }
 
-  .story-testimonial-track blockquote span {
-    font-size: clamp(0.605rem, 2.2vw, 0.77rem) !important;
-    margin-top: 0.3rem !important;
+  .story-testimonial-card span {
+    font-size: clamp(0.72rem, 2.5vw, 0.85rem) !important;
+    margin-top: 0.75rem !important;
   }
 }
 @media (max-width: 800px) {
