@@ -151,7 +151,7 @@ export default function StoryScene({ wrapperRef, progressRef, stage, localProgre
           <div
             style={{
               width: '100%',
-              maxWidth: '1430px',
+              maxWidth: '1573px',
               display: 'flex',
               flexDirection: 'column',
               gap: '1.5rem',
@@ -163,7 +163,7 @@ export default function StoryScene({ wrapperRef, progressRef, stage, localProgre
               From the people who drink it
               <div style={{ width: '48px', height: '2px', margin: '0.75rem auto 0', background: 'var(--rind)' }} />
             </div>
-            <div className="story-testimonial-track" style={{ display: 'flex', alignItems: 'flex-start', gap: '1.375rem', width: '100%', transformStyle: 'preserve-3d' }}>
+            <div className="story-testimonial-track" style={{ display: 'flex', alignItems: 'stretch', gap: '1.5rem', width: '100%', transformStyle: 'preserve-3d' }}>
               {visibleTestimonials.map((q) => {
                 const isCenter = q.offset === 0;
                 const cardScale = isCenter ? 1.04 : 0.88;
@@ -183,15 +183,15 @@ export default function StoryScene({ wrapperRef, progressRef, stage, localProgre
                     '--card-depth': cardDepth,
                     '--card-rotation': cardRotation,
                     flex: '1 1 0',
-                    alignSelf: 'flex-start',
+                    alignSelf: 'stretch',
                     margin: 0,
                     minWidth: 0,
-                    minHeight: 0,
-                    aspectRatio: '2 / 1',
+                    minHeight: 'fit-content',
+                    aspectRatio: '1.55 / 1',
                     boxSizing: 'border-box',
                     overflow: 'visible',
-                    padding: 'clamp(0.825rem, 1.65vw, 1.375rem) clamp(0.825rem, 1.65vw, 1.65rem)',
-                    borderRadius: '1rem',
+                    padding: 'clamp(1rem, 2vw, 1.75rem) clamp(1rem, 2vw, 2rem)',
+                    borderRadius: '1.25rem',
                     background: 'rgba(255, 255, 255, 0.06)',
                     border: '1px solid rgba(255,255,255,0.08)',
                     boxShadow: '0 18px 40px rgba(18, 16, 32, 0.12)',
@@ -206,9 +206,9 @@ export default function StoryScene({ wrapperRef, progressRef, stage, localProgre
                     textAlign: 'center',
                     fontFamily: 'var(--font-display)',
                     fontStyle: 'italic',
-                    fontSize: 'clamp(1.2rem, 1.9vw, 1.7rem)',
+                    fontSize: 'clamp(1.15rem, 1.8vw, 1.65rem)',
                     color: 'var(--mist)',
-                    lineHeight: 1.3,
+                    lineHeight: 1.35,
                   }}
                 >
                   "{q.text}"
@@ -217,8 +217,8 @@ export default function StoryScene({ wrapperRef, progressRef, stage, localProgre
                       display: 'block',
                       fontFamily: 'var(--font-body)',
                       fontStyle: 'normal',
-                      fontSize: 'clamp(0.825rem, 1.1vw, 0.99rem)',
-                      marginTop: '0.5rem',
+                      fontSize: 'clamp(0.85rem, 1.1vw, 1rem)',
+                      marginTop: '0.75rem',
                       opacity: 0.7,
                     }}
                   >
