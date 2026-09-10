@@ -7,12 +7,16 @@ const products = [
   { id: 'large', name: 'Large', volume: '1 litre', price: '$12.00', note: 'Made to share, or not.', modelScale: 1.52 },
 ];
 
-export default function ShopModal({ open, onClose }) {
+export default function ShopModal({ open, onClose, onAddToCart }) {
   const [selectedId, setSelectedId] = useState('medium');
+  const [added, setAdded] = useState(false);
   const closeButtonRef = useRef();
 
   useEffect(() => {
-    if (!open) return undefined;
+    if (!open) {
+      setAdded(false);
+      return undefined;
+    }
 
     closeButtonRef.current?.focus();
     const handleKeyDown = (event) => {
@@ -30,10 +34,28 @@ export default function ShopModal({ open, onClose }) {
 
   if (!open) return null;
 
+  const handleAdd = () => {
+    const product = products.find((p) => p.id === selectedId);
+    setAdded(true);
+
+    if (onAddToCart) {
+      onAddToCart(product);
+    }
+
+    setTimeout(() => {
+      setAdded(false);
+      onClose();
+    }, 550);
+  };
+
   return (
-    <div className="shop-modal-backdrop" role="presentation" onMouseDown={(event) => {
-      if (event.target === event.currentTarget) onClose();
-    }}>
+    <div
+      className="shop-modal-backdrop"
+      role="presentation"
+      onMouseDown={(event) => {
+        if (event.target === event.currentTarget) onClose();
+      }}
+    >
       <section className="shop-modal" role="dialog" aria-modal="true" aria-labelledby="shop-modal-title">
         <button
           ref={closeButtonRef}
@@ -73,8 +95,17 @@ export default function ShopModal({ open, onClose }) {
           })}
         </div>
 
-        <button className="shop-modal-cta" type="button" onClick={onClose}>
-          Add {products.find((product) => product.id === selectedId)?.name.toLowerCase()} bottle
+        <button
+          className="shop-modal-cta"
+          type="button"
+          onClick={handleAdd}
+          style={{
+            background: added ? 'var(--leaf)' : 'var(--rind)',
+            transition: 'background 0.3s ease, transform 0.2s ease',
+            transform: added ? 'scale(1.03)' : 'scale(1)',
+          }}
+        >
+          {added ? '✓ Added to bag!' : `Add ${products.find((product) => product.id === selectedId)?.name.toLowerCase()} bottle`}
         </button>
       </section>
     </div>

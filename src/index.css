@@ -36,6 +36,62 @@ footer p {
   overflow-wrap: anywhere;
 }
 
+@keyframes loader-pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(193, 66, 28, 0.3);
+  }
+  50% {
+    transform: scale(1.03);
+    box-shadow: 0 0 30px 10px rgba(193, 66, 28, 0.2);
+  }
+}
+
+@keyframes loader-dot-glow {
+  0%, 100% {
+    opacity: 0.35;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.25);
+  }
+}
+
+@keyframes toast-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.toast-container {
+  position: fixed;
+  top: 2rem;
+  right: 2rem;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  pointer-events: none;
+}
+
+@media (max-width: 800px) {
+  .toast-container {
+    top: 5rem;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    align-items: center;
+    width: max-content;
+    max-width: calc(100vw - 2rem);
+  }
+}
+
 .shop-modal-backdrop {
   position: fixed;
   inset: 0;

@@ -228,6 +228,54 @@ export default function StoryScene({ wrapperRef, progressRef, stage, localProgre
               );
               })}
             </div>
+
+            {/* Testimonial Position Indicator */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '1.25rem',
+                marginTop: '1rem',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+                {testimonials.map((_, idx) => {
+                  const isActive = idx === centerTestimonialIndex;
+                  return (
+                    <button
+                      key={idx}
+                      type="button"
+                      aria-label={`Go to testimonial ${idx + 1} of ${testimonials.length}`}
+                      onClick={() => setCenterTestimonialIndex(idx)}
+                      style={{
+                        padding: 0,
+                        border: 'none',
+                        height: '6px',
+                        width: isActive ? '1.6rem' : '6px',
+                        borderRadius: isActive ? '999px' : '50%',
+                        background: isActive ? 'var(--rind)' : 'var(--mist)',
+                        opacity: isActive ? 1 : 0.35,
+                        cursor: 'pointer',
+                        transition: 'all 0.35s cubic-bezier(0.22, 1, 0.36, 1)',
+                      }}
+                    />
+                  );
+                })}
+              </div>
+              <span
+                style={{
+                  fontFamily: 'var(--font-body)',
+                  fontSize: '0.85rem',
+                  fontWeight: 500,
+                  letterSpacing: '0.05em',
+                  color: 'var(--mist)',
+                  opacity: 0.8,
+                }}
+              >
+                <strong style={{ color: 'var(--pulp)', fontWeight: 600 }}>{centerTestimonialIndex + 1}</strong> / {testimonials.length}
+              </span>
+            </div>
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { scrollToStage } from '../hooks/useScrollStory';
 
 const links = [
@@ -8,19 +8,75 @@ const links = [
   { label: 'Experiences', stage: 3 },
 ];
 
+const modalTexts = {
+  privacy: {
+    title: 'Privacy Policy',
+    sections: [
+      {
+        heading: 'Information We Collect',
+        content: 'When you subscribe to our newsletter or place an order, we collect personal information such as your name, email address, and shipping details strictly for order fulfillment and communication.',
+      },
+      {
+        heading: 'How We Use Your Data',
+        content: 'Your data is strictly used to process purchases, deliver order updates, and send cold-pressed juice news if you opted in. We never sell, rent, or trade your personal information with third parties.',
+      },
+      {
+        heading: 'Cookies & Storage',
+        content: 'We use essential local session cookies to save your cart selections and maintain visual preferences across browsing sessions.',
+      },
+      {
+        heading: 'Your Rights & Unsubscribing',
+        content: 'You can opt out of newsletter communications at any time by clicking the unsubscribe link in any email or by contacting privacy@puresqueeze.com.',
+      },
+    ],
+  },
+  terms: {
+    title: 'Terms of Service',
+    sections: [
+      {
+        heading: 'Acceptance of Terms',
+        content: 'By accessing or purchasing from PureSqueeze, you agree to be bound by these terms. Our cold-pressed juices are unpasteurized, raw products intended for immediate consumption.',
+      },
+      {
+        heading: 'Ordering & Delivery',
+        content: 'Because our products are freshly pressed without preservatives, orders are non-refundable once dispatched. Please ensure someone is available to receive refrigerated packages.',
+      },
+      {
+        heading: 'Intellectual Property',
+        content: 'All brand graphics, typography, 3D interactive models, and promotional content belong to PureSqueeze and may not be copied without explicit authorization.',
+      },
+      {
+        heading: 'Limitation of Liability',
+        content: 'PureSqueeze is not liable for delayed deliveries due to courier disruptions or improper storage after delivery.',
+      },
+    ],
+  },
+};
+
 export default function Footer({ wrapperRef, onShop }) {
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
+  const [activeModal, setActiveModal] = useState(null); // 'privacy' | 'terms' | null
+
+  // Close modal on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') setActiveModal(null);
+    };
+    if (activeModal) window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [activeModal]);
 
   const handleSubscribe = (e) => {
     e.preventDefault();
-    // Placeholder — wire this to EmailJS or a real mailing-list API later
-    setSubscribed(true);
+    if (email.trim()) {
+      setSubscribed(true);
+    }
   };
 
   return (
-    <footer style={{ background: 'var(--dusk)', color: 'var(--mist)' }}>
-      {/* CTA banner — unchanged */}
+    <footer style={{ background: 'var(--dusk)', color: 'var(--mist)', position: 'relative' }}>
+      {/* CTA banner */}
       <div style={{ textAlign: 'center', padding: 'clamp(3rem, 8vw, 5rem) 1.5rem' }}>
         <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 400, fontSize: 'clamp(1.4rem, 4vw, 2rem)', margin: '0 0 1.5rem' }}>
           Ready to taste the difference?
@@ -91,7 +147,9 @@ export default function Footer({ wrapperRef, onShop }) {
             Stay in the loop
           </h5>
           {subscribed ? (
-            <p style={{ opacity: 0.75, fontSize: '0.9rem' }}>You're on the list — thanks!</p>
+            <p style={{ opacity: 0.85, fontSize: '0.9rem', color: 'var(--pulp)' }}>
+              ✓ You're on the list — thanks!
+            </p>
           ) : (
             <form onSubmit={handleSubscribe} style={{ display: 'flex', gap: '0.5rem' }}>
               <input
@@ -128,21 +186,102 @@ export default function Footer({ wrapperRef, onShop }) {
         style={{
           display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', gap: '1rem',
           maxWidth: '1100px', margin: '0 auto', padding: '1.5rem clamp(1.5rem, 5vw, 3.5rem)',
-          fontSize: '0.8rem', opacity: 0.5,
+          fontSize: '0.8rem', opacity: 0.7,
         }}
       >
         <span>© 2026 PureSqueeze</span>
         <div style={{ display: 'flex', gap: '1.5rem' }}>
-          <a href="#" style={{ color: 'inherit', textDecoration: 'none' }}>Privacy</a>
-          <a href="#" style={{ color: 'inherit', textDecoration: 'none' }}>Terms</a>
+          <button
+            type="button"
+            onClick={() => setActiveModal('privacy')}
+            style={{
+              background: 'none', border: 'none', padding: 0, color: 'inherit',
+              cursor: 'pointer', font: 'inherit', textDecoration: 'underline',
+              opacity: 0.85,
+            }}
+          >
+            Privacy Policy
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveModal('terms')}
+            style={{
+              background: 'none', border: 'none', padding: 0, color: 'inherit',
+              cursor: 'pointer', font: 'inherit', textDecoration: 'underline',
+              opacity: 0.85,
+            }}
+          >
+            Terms of Service
+          </button>
         </div>
       </div>
 
-      {/* Attribution — kept as-is, just tucked below everything else */}
+      {/* Attribution */}
       <div style={{ textAlign: 'center', opacity: 0.35, fontSize: '0.75rem', padding: '0 1.5rem 2rem', lineHeight: 1.8 }}>
         <p>"Orange" (https://skfb.ly/oyUll) by 1str.co is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).</p>
         <p>"Sclice Orange Good" (https://skfb.ly/ozLFF) by mevitasyam is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).</p>
       </div>
+
+      {/* Privacy / Terms Modal */}
+      {activeModal && (
+        <div
+          className="shop-modal-backdrop"
+          onClick={() => setActiveModal(null)}
+          style={{ zIndex: 300 }}
+        >
+          <div
+            className="shop-modal"
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              maxWidth: '680px',
+              padding: 'clamp(1.5rem, 4vw, 2.5rem)',
+            }}
+          >
+            <button
+              className="shop-modal-close"
+              onClick={() => setActiveModal(null)}
+              aria-label="Close dialog"
+            >
+              ×
+            </button>
+
+            <div className="shop-modal-eyebrow">Legal Information</div>
+            <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', marginBottom: '1.5rem' }}>
+              {modalTexts[activeModal].title}
+            </h2>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', lineHeight: 1.6, opacity: 0.9 }}>
+              {modalTexts[activeModal].sections.map((sec, idx) => (
+                <div key={idx}>
+                  <h4 style={{ fontFamily: 'var(--font-display)', fontWeight: 500, fontSize: '1.1rem', color: 'var(--rind)', marginBottom: '0.35rem' }}>
+                    {sec.heading}
+                  </h4>
+                  <p style={{ fontSize: '0.9rem', color: 'var(--ink)', opacity: 0.8 }}>
+                    {sec.content}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <button
+              onClick={() => setActiveModal(null)}
+              style={{
+                marginTop: '2rem',
+                padding: '0.75rem 1.75rem',
+                background: 'var(--rind)',
+                color: 'var(--mist)',
+                border: 'none',
+                borderRadius: '999px',
+                fontWeight: 500,
+                fontSize: '0.9rem',
+                cursor: 'pointer',
+              }}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </footer>
   );
 }

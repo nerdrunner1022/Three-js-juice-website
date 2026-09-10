@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faXmark, faShoppingBag } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getStoryStageHeight } from '../hooks/useScrollStory';
 
@@ -10,7 +10,7 @@ const links = [
   { label: 'Experiences', stage: 3 },
 ];
 
-export default function Nav({ stage, wrapperRef, footerRef }) {
+export default function Nav({ stage, wrapperRef, footerRef, cartCount = 0, onShop }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   // Paper sections (1, 2) are light — nav flips dark to stay legible against them.
@@ -91,6 +91,43 @@ export default function Nav({ stage, wrapperRef, footerRef }) {
         >
           Contact
         </a>
+
+        {cartCount > 0 && (
+          <button
+            type="button"
+            onClick={() => {
+              if (onShop) onShop();
+              setMenuOpen(false);
+            }}
+            style={{
+              padding: '0.35rem 0.8rem',
+              borderRadius: '999px',
+              background: 'var(--rind)',
+              color: 'var(--mist)',
+              border: 'none',
+              fontSize: '0.8rem',
+              fontWeight: 600,
+              cursor: 'pointer',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+              transition: 'transform 0.2s ease',
+            }}
+          >
+            <FontAwesomeIcon icon={faShoppingBag} style={{ fontSize: '0.85rem' }} />
+            <span>Bag</span>
+            <span
+              style={{
+                background: 'rgba(255,255,255,0.25)',
+                padding: '0.05rem 0.45rem',
+                borderRadius: '999px',
+                fontSize: '0.75rem',
+              }}
+            >
+              {cartCount}
+            </span>
+          </button>
+        )}
       </div>
     </nav>
   );

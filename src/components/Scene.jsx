@@ -1,6 +1,6 @@
 import { Suspense, useMemo, useRef } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { Environment, Html, useGLTF } from '@react-three/drei';
+import { Environment, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 import JuiceBottle from './JuiceBottle';
 
@@ -49,7 +49,16 @@ function FloatingFruit({ model, config }) {
   );
 }
 
-function FloatingFruits() {
+function lerp(a, b, t) {
+  return a + (b - a) * t;
+}
+
+function smoothstep(t) {
+  const c = Math.min(Math.max(t, 0), 1);
+  return c * c * (3 - 2 * c);
+}
+
+function FloatingFruits({ progressRef }) {
   const { scene: orange } = useGLTF('/models/ORANGES.glb');
   const { scene: slice } = useGLTF('/models/Orange_slice.glb');
   const fruitGroupRef = useRef();
@@ -58,10 +67,32 @@ function FloatingFruits() {
   useFrame(() => {
     if (!fruitGroupRef.current) return;
 
+    const p = progressRef?.current ?? 0;
     const halfWidth = viewport.width / 2;
     const viewportScale = Math.min(Math.max(viewport.width / 7, 0.3), 1);
-    fruitGroupRef.current.position.x = 0.5 * halfWidth;
-    fruitGroupRef.current.scale.setScalar(viewportScale);
+
+    const maxStage = 3;
+    const stageIndex = Math.min(Math.floor(p), maxStage);
+    const localT = p - stageIndex;
+
+    const HOLD = 0.7;
+    const raw = Math.max(localT - HOLD, 0) / (1 - HOLD);
+    const t = smoothstep(raw);
+
+    if (stageIndex === 0) {
+      // Bottle moves from 0.5 * halfWidth (scale 1) in stage 0 to -0.5 * halfWidth (scale 2.1) in stage 1
+      const bottleX = lerp(0.5 * halfWidth, -0.5 * halfWidth, t);
+      const bottleScale = lerp(1, 2.1, t);
+
+      fruitGroupRef.current.position.x = bottleX;
+      fruitGroupRef.current.scale.setScalar(bottleScale * viewportScale);
+
+      // Fade out near the end of stage 0 -> stage 1 transition so fruits don't linger into stage 2+
+      const opacity = t > 0.4 ? 1 - (t - 0.4) / 0.6 : 1;
+      fruitGroupRef.current.visible = opacity > 0.01;
+    } else {
+      fruitGroupRef.current.visible = false;
+    }
   });
 
   return (
@@ -77,19 +108,6 @@ function FloatingFruits() {
   );
 }
 
-// Loading fallback shown while any suspended assets (textures, models) load.
-// Right now nothing is async yet, but this scaffolding is ready for when
-// we swap the placeholder bottle for a real .glb model.
-function Loader() {
-  return (
-    <Html center>
-      <div style={{ color: '#fff', fontSize: '14px', fontFamily: 'var(--font-body)' }}>
-        Loading...
-      </div>
-    </Html>
-  );
-}
-
 export default function Scene({ progressRef, stage }) {
   const labelText = stage === 1
     ? 'COLD-PRESSED\nNOTHING ADDED\nHARVESTED TO ORDER'
@@ -101,9 +119,9 @@ export default function Scene({ progressRef, stage }) {
     <Canvas shadows camera={{ position: [0, 0, 5], fov: 45 }} dpr={[1, 2]}>
       <ambientLight intensity={0.6} />
       <directionalLight position={[3, 5, 2]} intensity={1.5} castShadow shadow-mapSize-width={1024} shadow-mapSize-height={1024} />
-      <Suspense fallback={<Loader />}>
+      <Suspense fallback={null}>
         <JuiceBottle position={[0, 0, 0]} progressRef={progressRef} stage={stage} labelText={labelText} />
-        {stage === 0 && <FloatingFruits />}
+        {stage <= 1 && <FloatingFruits progressRef={progressRef} />}
         <Environment preset="studio" />
       </Suspense>
       {/* OrbitControls removed — position is now scroll-driven, manual drag would fight it */}
